@@ -42,11 +42,17 @@ body {
   align-items: center;
   justify-content: center;
   padding: 24px 16px;
-  background: var(--bg);
+  background: var(--bg) url("media/background.jpg") center / cover no-repeat fixed;
   color: var(--text);
   font-family: "Nunito", system-ui, -apple-system, sans-serif;
   font-size: 18px;
   line-height: 1.5;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    background-image: linear-gradient(rgba(31, 15, 24, 0.55), rgba(31, 15, 24, 0.55)), url("media/background.jpg");
+  }
 }
 
 .progress {
