@@ -256,3 +256,6 @@ button:disabled { cursor: default; }
 @media (prefers-reduced-motion: reduce) {
   .card, .shake { animation: none; }
 }
+
+.gate-emoji { font-size: 4rem; line-height: 1.2; margin-bottom: 8px; }
+.gate-old { font-size: 1.3rem; font-weight: 800; margin: 0; }

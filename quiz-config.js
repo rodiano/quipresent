@@ -24,6 +24,20 @@ window.QUIZ = {
   intro: "Løs alle opgaverne for at finde præmien!",
   chooseLevel: "Vælg sværhedsgrad:",
 
+  // Årstals-side der vises før quizzen. Er årstallet før `cutoffYear`,
+  // vises `oldMessage` i `delayMs` millisekunder, og så sendes man videre.
+  gate: {
+    title: "Før vi starter…",
+    text: "Hvilket år er du født?",
+    placeholder: "fx 1985",
+    button: "Videre",
+    invalid: "Skriv et gyldigt årstal",
+    cutoffYear: 1980,
+    oldMessage: "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
+    oldEmoji: "😎",
+    delayMs: 3000,
+  },
+
   levels: [
     // ------------------------------------------------------------ NEM
     {

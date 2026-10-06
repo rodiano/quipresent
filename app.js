@@ -13,6 +13,15 @@
   let current = 0;
   loadProgress();
 
+  // Har besøgende allerede indtastet årstal i denne session?
+  let gatePassed = sessionStorageGet("quiz-gate-passed") === "1";
+  function sessionStorageGet(k) {
+    try { return sessionStorage.getItem(k); } catch (e) { return null; }
+  }
+  function sessionStorageSet(k, v) {
+    try { sessionStorage.setItem(k, v); } catch (e) { /* ignorer */ }
+  }
+
   function findLevel(id) {
     return (Q.levels || []).find((l) => l.id === id) || null;
   }
@@ -77,6 +86,10 @@
 
   function render() {
     resetCard();
+    if (!level && !gatePassed && Q.gate) {
+      progressBar.style.width = "0%";
+      return renderGate();
+    }
     if (!level) {
       progressBar.style.width = "0%";
       return renderIntro();
@@ -85,6 +98,64 @@
     progressBar.style.width = Math.min(current, total) / total * 100 + "%";
     if (current >= total) renderWinner();
     else renderStep(level.steps[current], current);
+  }
+
+  // Årstals-side foran quizzen
+  function renderGate() {
+    const G = Q.gate;
+    const input = el("input", {
+      type: "text",
+      inputMode: "numeric",
+      maxLength: 4,
+      placeholder: G.placeholder || "fx 1985",
+      autocomplete: "off",
+      ariaLabel: G.text || "Årstal",
+    });
+    const submit = el("button", { className: "primary", type: "submit" }, G.button || "Videre");
+    const feedback = el("p", { className: "feedback", role: "status" });
+    const form = el("form", { className: "answer-form" }, input, submit);
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      const raw = input.value.trim();
+      const year = Number(raw);
+      if (!/^\d{4}$/.test(raw) || year > new Date().getFullYear()) {
+        feedback.textContent = G.invalid || "Skriv et gyldigt årstal";
+        feedback.className = "feedback is-wrong";
+        form.classList.remove("shake");
+        void form.offsetWidth;
+        form.classList.add("shake");
+        input.select();
+        return;
+      }
+      input.disabled = submit.disabled = true;
+      if (year < (G.cutoffYear || 1980)) renderOld(G);
+      else passGate();
+    };
+
+    add(app,
+      el("h1", {}, G.title),
+      G.text && el("p", {}, G.text),
+      form,
+      feedback
+    );
+    input.focus();
+  }
+
+  // Kort besked til dem, der er født før grænseåret, og så videre til quizzen
+  function renderOld(G) {
+    resetCard();
+    add(app,
+      el("div", { className: "gate-emoji", ariaHidden: "true" }, G.oldEmoji || "😎"),
+      el("p", { className: "gate-old", role: "status" }, G.oldMessage)
+    );
+    setTimeout(passGate, G.delayMs || 3000);
+  }
+
+  function passGate() {
+    gatePassed = true;
+    sessionStorageSet("quiz-gate-passed", "1");
+    render();
   }
 
   function renderIntro() {
