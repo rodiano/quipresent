@@ -258,7 +258,8 @@
       shakeTarget.classList.add("shake");
     };
 
-    const answerArea = step.type === "choice"
+    // Et "choice"-trin uden svarmuligheder behandles som et tekstsvar
+    const answerArea = step.type === "choice" && Array.isArray(step.options)
       ? choiceAnswer(step, onCorrect, onWrong)
       : textAnswer(step, onCorrect, onWrong);
 
