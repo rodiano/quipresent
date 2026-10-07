@@ -13,7 +13,20 @@
 //  Alle trin kan desuden have:
 //    image: "media/billede.jpg"   – et billede
 //    audio: "media/lydklip.m4a"   – et lydklip (mp3, m4a, wav, ogg)
+//    youtube: "https://www.youtube.com/watch?v=..." – en YouTube-video
+//             (alle slags YouTube-links virker, også youtu.be og shorts;
+//             "&t=1m30s" eller "?t=90" starter videoen ved det tidspunkt)
 //    hint:  "..."                 – vises når man trykker "Vis hint"
+//
+//  Eksempel på et YouTube-spørgsmål:
+//    {
+//      type: "choice",
+//      title: "Se videoen",
+//      text: "Hvilket dyr er med i videoen?",
+//      youtube: "https://youtu.be/VIDEO-ID?t=30",
+//      options: ["Hund", "Kat", "Hest", "Ko"],
+//      correct: 1,
+//    },
 //
 //  Svar der skrives ind sammenlignes uden forskel på store/små bogstaver,
 //  mellemrum og tegnsætning ("Æble træ!" = "æbletræ").

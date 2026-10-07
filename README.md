@@ -25,7 +25,12 @@ Svær bruger det til en ekstrapræmie (`extra`).
 | `text`    | Spørgsmål med indtastet svar (`answers`) |
 | `choice`  | Spørgsmål med svarmuligheder (`options` + `correct`, hvor 0 = første) |
 
-Alle trin kan have `image`, `audio` og `hint`.
+Alle trin kan have `image`, `audio`, `youtube` og `hint`.
+
+`youtube` er et almindeligt YouTube-link (`youtube.com/watch?v=…`, `youtu.be/…`, `shorts/…`),
+som vises som en indlejret video. Tilføj `t=` til linket (fx `?t=90` eller `&t=1m30s`)
+for at starte videoen et bestemt sted. YouTube-videoer afspilles kun, når siden ligger
+online (fx på GitHub Pages) — ikke når `index.html` åbnes direkte fra disken.
 Vindersiden (`winner`) kan have tekst, billede, et link-knap, egen HTML og en ekstrapræmie (`extra`).
 
 ## Prøv lokalt

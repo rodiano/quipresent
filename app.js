@@ -192,10 +192,49 @@
     window.scrollTo(0, 0);
   }
 
+  // "90", "90s", "1m30s", "1h2m3s" → sekunder
+  function parseTime(t) {
+    if (!t) return 0;
+    if (/^\d+$/.test(t)) return Number(t);
+    const m = /^(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s)?$/.exec(t);
+    return m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0;
+  }
+
+  // Lav et YouTube-link (watch, youtu.be, shorts, embed, live) om til en embed-URL
+  function youtubeEmbedUrl(link) {
+    let u;
+    try { u = new URL(link); } catch (e) { return null; }
+    const host = u.hostname.replace(/^(www|m|music)\./, "");
+    let id = null;
+    if (host === "youtu.be") id = u.pathname.split("/")[1];
+    else if (host === "youtube.com" || host === "youtube-nocookie.com") {
+      id = u.searchParams.get("v") || (/^\/(?:embed|shorts|live|v)\/([^/]+)/.exec(u.pathname) || [])[1];
+    }
+    if (!id || !/^[\w-]{11}$/.test(id)) return null;
+    const params = new URLSearchParams({ rel: "0", playsinline: "1" });
+    const start = parseTime(u.searchParams.get("t") || u.searchParams.get("start"));
+    if (start) params.set("start", start);
+    return `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+  }
+
+  function youtube(link) {
+    const src = youtubeEmbedUrl(link);
+    // Ukendt link-format: vis i det mindste et link til videoen
+    if (!src) return el("p", {}, el("a", { href: link, target: "_blank", rel: "noopener" }, link));
+    return el("div", { className: "video" }, el("iframe", {
+      src,
+      title: "YouTube-video",
+      allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
+      allowFullscreen: true,
+      referrerPolicy: "strict-origin-when-cross-origin",
+    }));
+  }
+
   function media(step) {
     return [
       step.rebus && el("div", { className: "rebus" }, step.rebus),
       step.image && el("img", { className: "media-img", src: step.image, alt: "" }),
+      step.youtube && youtube(step.youtube),
       step.audio && el("audio", { controls: true, preload: "auto", src: step.audio }),
     ];
   }
