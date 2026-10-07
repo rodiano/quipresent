@@ -200,8 +200,8 @@
     return m ? (+m[1] || 0) * 3600 + (+m[2] || 0) * 60 + (+m[3] || 0) : 0;
   }
 
-  // Lav et YouTube-link (watch, youtu.be, shorts, embed, live) om til en embed-URL
-  function youtubeEmbedUrl(link) {
+  // Find video-id og starttid i et YouTube-link (watch, youtu.be, shorts, embed, live)
+  function parseYoutube(link) {
     let u;
     try { u = new URL(link); } catch (e) { return null; }
     const host = u.hostname.replace(/^(www|m|music)\./, "");
@@ -211,18 +211,19 @@
       id = u.searchParams.get("v") || (/^\/(?:embed|shorts|live|v)\/([^/]+)/.exec(u.pathname) || [])[1];
     }
     if (!id || !/^[\w-]{11}$/.test(id)) return null;
-    const params = new URLSearchParams({ rel: "0", playsinline: "1" });
-    const start = parseTime(u.searchParams.get("t") || u.searchParams.get("start"));
-    if (start) params.set("start", start);
-    return `https://www.youtube-nocookie.com/embed/${id}?${params}`;
+    return { id, start: parseTime(u.searchParams.get("t") || u.searchParams.get("start")) };
   }
 
-  function youtube(link) {
-    const src = youtubeEmbedUrl(link);
+  function youtube(link, mode) {
+    const video = parseYoutube(link);
     // Ukendt link-format: vis i det mindste et link til videoen
-    if (!src) return el("p", {}, el("a", { href: link, target: "_blank", rel: "noopener" }, link));
+    if (!video) return el("p", {}, el("a", { href: link, target: "_blank", rel: "noopener" }, link));
+    if (mode === "audio" || mode === "video") return hiddenYoutube(video, mode);
+
+    const params = new URLSearchParams({ rel: "0", playsinline: "1" });
+    if (video.start) params.set("start", video.start);
     return el("div", { className: "video" }, el("iframe", {
-      src,
+      src: `https://www.youtube-nocookie.com/embed/${video.id}?${params}`,
       title: "YouTube-video",
       allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share",
       allowFullscreen: true,
@@ -230,11 +231,102 @@
     }));
   }
 
+  // YouTubes IFrame API hentes første gang, der er brug for den
+  let youtubeApi = null;
+  function loadYoutubeApi() {
+    if (!youtubeApi) {
+      youtubeApi = new Promise((resolve, reject) => {
+        if (window.YT && window.YT.Player) return resolve(window.YT);
+        const previous = window.onYouTubeIframeAPIReady;
+        window.onYouTubeIframeAPIReady = () => {
+          if (previous) previous();
+          resolve(window.YT);
+        };
+        document.head.append(el("script", {
+          src: "https://www.youtube.com/iframe_api",
+          onerror: () => { youtubeApi = null; reject(); },
+        }));
+      });
+    }
+    return youtubeApi;
+  }
+
+  // Afspiller hvor YouTubes titel, kanal og forslag er dækket, og man bruger
+  // vores egne knapper. "audio" dækker hele videoen, "video" viser billedet,
+  // når titlen er forsvundet (få sekunder efter afspilning starter).
+  function hiddenYoutube(video, mode) {
+    const target = el("div");
+    const icon = el("span", { className: "yt-icon", ariaHidden: "true" }, "▶");
+    const cover = el("div", { className: "yt-cover" }, icon);
+    const box = el("div", { className: `video yt-hidden is-${mode}` }, target, cover);
+    const playBtn = el("button", { className: "primary", type: "button", disabled: true }, M.play || "▶ Afspil");
+    const replayBtn = el("button", { className: "link", type: "button", disabled: true }, M.replay || "↺ Fra start");
+    let player = null;
+    let playing = false;
+    let revealTimer = 0;
+
+    function update(state) {
+      playing = state === 1 || state === 3; // PLAYING eller BUFFERING
+      playBtn.textContent = playing ? (M.pause || "❚❚ Pause") : (M.play || "▶ Afspil");
+      icon.textContent = playing ? "♪" : "▶";
+      box.classList.toggle("is-playing", playing);
+      if (state === 1 && mode === "video" && !revealTimer && !box.classList.contains("is-revealed")) {
+        revealTimer = setTimeout(() => box.classList.add("is-revealed"), 3000);
+      }
+      if (!playing) {
+        clearTimeout(revealTimer);
+        revealTimer = 0;
+        box.classList.remove("is-revealed");
+      }
+    }
+
+    function toggle() {
+      if (!player) return;
+      if (playing) player.pauseVideo();
+      else player.playVideo();
+    }
+
+    playBtn.onclick = cover.onclick = toggle;
+    replayBtn.onclick = () => {
+      if (!player) return;
+      player.seekTo(video.start, true);
+      player.playVideo();
+    };
+
+    loadYoutubeApi().then((YT) => {
+      player = new YT.Player(target, {
+        host: "https://www.youtube-nocookie.com",
+        videoId: video.id,
+        playerVars: {
+          controls: 0, disablekb: 1, fs: 0, rel: 0, iv_load_policy: 3, playsinline: 1,
+          start: video.start,
+        },
+        events: {
+          onReady: () => { playBtn.disabled = replayBtn.disabled = false; },
+          onStateChange: (e) => update(e.data),
+          // Dækket skjuler YouTubes egen fejlbesked, så vis den selv
+          onError: (e) => {
+            playBtn.disabled = replayBtn.disabled = true;
+            box.classList.remove("is-revealed");
+            cover.replaceChildren(el("p", {}, `Videoen kan ikke afspilles her (YouTube-fejl ${e.data}).`));
+          },
+        },
+      });
+    }, () => {
+      cover.replaceChildren(el("p", {}, "Videoen kunne ikke hentes."));
+    });
+
+    return el("div", { className: "yt-wrap" },
+      box,
+      el("div", { className: "yt-controls" }, playBtn, replayBtn)
+    );
+  }
+
   function media(step) {
     return [
       step.rebus && el("div", { className: "rebus" }, step.rebus),
       step.image && el("img", { className: "media-img", src: step.image, alt: "" }),
-      step.youtube && youtube(step.youtube),
+      step.youtube && youtube(step.youtube, step.youtubeMode),
       step.audio && el("audio", { controls: true, preload: "auto", src: step.audio }),
     ];
   }

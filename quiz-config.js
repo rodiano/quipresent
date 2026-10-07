@@ -16,6 +16,9 @@
 //    youtube: "https://www.youtube.com/watch?v=..." – en YouTube-video
 //             (alle slags YouTube-links virker, også youtu.be og shorts;
 //             "&t=1m30s" eller "?t=90" starter videoen ved det tidspunkt)
+//    youtubeMode: "audio" – kun lyd: videoen, titlen osv. er skjult
+//    youtubeMode: "video" – billedet vises, men titel, kanal og forslag skjules
+//             (udelades = almindelig YouTube-afspiller med titel)
 //    hint:  "..."                 – vises når man trykker "Vis hint"
 //
 //  Eksempel på et YouTube-spørgsmål:
@@ -24,6 +27,7 @@
 //      title: "Se videoen",
 //      text: "Hvilket dyr er med i videoen?",
 //      youtube: "https://youtu.be/VIDEO-ID?t=30",
+//      youtubeMode: "video",
 //      options: ["Hund", "Kat", "Hest", "Ko"],
 //      correct: 1,
 //    },
@@ -253,5 +257,8 @@ window.QUIZ = {
     placeholder: "Skriv dit svar…",
     restart: "Start forfra",
     questions: "spørgsmål",
+    play: "▶ Afspil",
+    pause: "❚❚ Pause",
+    replay: "↺ Fra start",
   },
 };
