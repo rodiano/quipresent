@@ -238,7 +238,7 @@ button:disabled { cursor: default; }
   background: var(--option);
 }
 .extra-prize h2 { margin: 0 0 8px; font-size: 1.3rem; }
-.extra-prize p:last-child { margin-bottom: 0; }
+.extra-prize p:last-of-type { margin-bottom: 16px; }
 
 .winner-html { margin-bottom: 20px; }
 .winner-html iframe { max-width: 100%; }

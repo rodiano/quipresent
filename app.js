@@ -444,10 +444,11 @@
           { className: "extra-prize" },
           x.title && el("h2", {}, x.title),
           x.text && el("p", {}, x.text),
-          x.image &&
-            el("img", { className: "media-img", src: x.image, alt: "" }),
-          x.html && prizeHtml(x.html),
-          prizeLink(x.link),
+          el(
+            "button",
+            { className: "primary", onclick: () => renderExtra(w) },
+            x.button || "Klik her",
+          ),
         ),
       el(
         "div",
@@ -460,6 +461,26 @@
       ),
     );
 
+    if (w.confetti !== false) confetti();
+  }
+
+  // Extra prize on its own page, reached from the winner page
+  function renderExtra(w) {
+    const x = w.extra;
+    resetCard();
+    add(
+      app,
+      el("h1", {}, x.title || "Ekstrapræmie"),
+      x.image && el("img", { className: "media-img", src: x.image, alt: "" }),
+      x.html && prizeHtml(x.html),
+      prizeLink(x.link),
+      el(
+        "div",
+        { className: "footer" },
+        el("button", { className: "link", onclick: render }, x.back || "Tilbage"),
+      ),
+    );
+    window.scrollTo(0, 0);
     if (w.confetti !== false) confetti();
   }
 
