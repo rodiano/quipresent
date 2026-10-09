@@ -129,7 +129,8 @@
         return;
       }
       input.disabled = submit.disabled = true;
-      if (year < (G.cutoffYear || 1980)) renderOld(G);
+      const old = year < (G.cutoffYear || 1980);
+      if (old || G.image) renderGateResult(G, old);
       else passGate();
     };
 
@@ -142,12 +143,14 @@
     input.focus();
   }
 
-  // Kort besked til dem, der er født før grænseåret, og så videre til quizzen
-  function renderOld(G) {
+  // Short interstitial: message for those born before the cutoff year, image
+  // for everyone – then on to the quiz
+  function renderGateResult(G, old) {
     resetCard();
     add(app,
-      el("div", { className: "gate-emoji", ariaHidden: "true" }, G.oldEmoji || "😎"),
-      el("p", { className: "gate-old", role: "status" }, G.oldMessage)
+      old && el("div", { className: "gate-emoji", ariaHidden: "true" }, G.oldEmoji || "😎"),
+      old && el("p", { className: "gate-old", role: "status" }, G.oldMessage),
+      G.image && el("img", { className: "gate-image", src: G.image, alt: "" })
     );
     setTimeout(passGate, G.delayMs || 3000);
   }
