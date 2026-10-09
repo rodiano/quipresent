@@ -278,6 +278,14 @@
         el("img", { className: "media-img", src: step.image, alt: "" }),
       step.audio &&
         el("audio", { controls: true, preload: "auto", src: step.audio }),
+      step.video &&
+        el("video", {
+          className: "media-video",
+          controls: true,
+          playsInline: true,
+          preload: "metadata",
+          src: step.video,
+        }),
     ];
   }
 
