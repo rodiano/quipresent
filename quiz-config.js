@@ -13,7 +13,24 @@
 //  Alle trin kan desuden have:
 //    image: "media/billede.jpg"   – et billede
 //    audio: "media/lydklip.m4a"   – et lydklip (mp3, m4a, wav, ogg)
+//    youtube: "https://www.youtube.com/watch?v=..." – en YouTube-video
+//             (alle slags YouTube-links virker, også youtu.be og shorts;
+//             "&t=1m30s" eller "?t=90" starter videoen ved det tidspunkt)
+//    youtubeMode: "audio" – kun lyd: videoen, titlen osv. er skjult
+//    youtubeMode: "video" – billedet vises, men titel, kanal og forslag skjules
+//             (udelades = almindelig YouTube-afspiller med titel)
 //    hint:  "..."                 – vises når man trykker "Vis hint"
+//
+//  Eksempel på et YouTube-spørgsmål:
+//    {
+//      type: "choice",
+//      title: "Se videoen",
+//      text: "Hvilket dyr er med i videoen?",
+//      youtube: "https://youtu.be/VIDEO-ID?t=30",
+//      youtubeMode: "video",
+//      options: ["Hund", "Kat", "Hest", "Ko"],
+//      correct: 1,
+//    },
 //
 //  Svar der skrives ind sammenlignes uden forskel på store/små bogstaver,
 //  mellemrum og tegnsætning ("Æble træ!" = "æbletræ").
@@ -33,7 +50,8 @@ window.QUIZ = {
     button: "Videre",
     invalid: "Skriv et gyldigt årstal",
     cutoffYear: 1980,
-    oldMessage: "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
+    oldMessage:
+      "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
     oldEmoji: "😎",
     delayMs: 3000,
   },
@@ -57,8 +75,8 @@ window.QUIZ = {
         {
           type: "choice",
           title: "Spørgsmål",
-          text: "Hvad er hovedstaden i Danmark?",
-          options: ["Aarhus", "København", "Odense", "Aalborg"],
+          youtube: "https://youtu.be/pIUSjjlBwCI?list=RDpIUSjjlBwCI&t=58",
+          answers: ["æbletræ", "et æbletræ"], // alle svar der godkendes
           correct: 1, // 0 = første mulighed, 1 = anden, osv.
         },
       ],
@@ -240,5 +258,8 @@ window.QUIZ = {
     placeholder: "Skriv dit svar…",
     restart: "Start forfra",
     questions: "spørgsmål",
+    play: "▶ Afspil",
+    pause: "❚❚ Pause",
+    replay: "↺ Fra start",
   },
 };

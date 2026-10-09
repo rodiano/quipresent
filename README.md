@@ -25,7 +25,23 @@ Svær bruger det til en ekstrapræmie (`extra`).
 | `text`    | Spørgsmål med indtastet svar (`answers`) |
 | `choice`  | Spørgsmål med svarmuligheder (`options` + `correct`, hvor 0 = første) |
 
-Alle trin kan have `image`, `audio` og `hint`.
+Alle trin kan have `image`, `audio`, `youtube` og `hint`.
+
+`youtube` er et almindeligt YouTube-link (`youtube.com/watch?v=…`, `youtu.be/…`, `shorts/…`),
+som vises som en indlejret video. Tilføj `t=` til linket (fx `?t=90` eller `&t=1m30s`)
+for at starte videoen et bestemt sted.
+
+Skal man ikke kunne se, hvilken video det er, så sæt `youtubeMode`:
+
+| `youtubeMode` | Viser |
+|---------------|-------|
+| _(udeladt)_   | Almindelig YouTube-afspiller med titel |
+| `"audio"`     | Kun lyd — videoen er dækket, og man bruger quizzens egne Afspil/Pause-knapper |
+| `"video"`     | Billedet vises, men titel, kanal, pauseskærm og slutforslag er dækket |
+
+I `"video"` er billedet dækket de første par sekunder efter hver afspilning, mens
+YouTube viser titlen. Den, der kigger i kildekoden, kan stadig finde linket. YouTube-videoer afspilles kun, når siden ligger
+online (fx på GitHub Pages) — ikke når `index.html` åbnes direkte fra disken.
 Vindersiden (`winner`) kan have tekst, billede, et link-knap, egen HTML og en ekstrapræmie (`extra`).
 
 ## Prøv lokalt
