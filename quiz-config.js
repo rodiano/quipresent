@@ -14,6 +14,7 @@
 //  Alle trin kan desuden have:
 //    image: "media/billede.jpg"   – et billede
 //    audio: "media/lydklip.m4a"   – et lydklip (mp3, m4a, wav, ogg)
+//    video: "media/klip.mp4"      – a video clip (mp4, webm)
 //    hint:  "..."                 – vises når man trykker "Vis hint"
 //
 //  Svar der skrives ind sammenlignes uden forskel på store/små bogstaver,
@@ -94,12 +95,11 @@ window.QUIZ = {
 
     // --------------------------------------------------------- MIDDEL
     {
-      type: "choice",
+      type: "text",
       title: "Lyt godt efter",
-      text: "Afspil lydklippet. Hvad er det hemmelige ord?",
-      audio: "media/lydklip.m4a",
-      options: ["Æble", "Banan", "Citron", "Pære"],
-      correct: 1,
+      text: "Afspil lydklippet. Hvad hedder sangen?",
+      video: "media/actor.mp4",
+      answers: ["The Actor", "Actor"],
     },
     {
       type: "text",
