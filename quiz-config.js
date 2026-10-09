@@ -1,9 +1,10 @@
 // =====================================================================
 //  QUIZ-INDSTILLINGER — det er kun denne fil, du skal redigere.
 //
-//  Quizzen har tre sværhedsgrader (levels). Hver har sin egen liste
-//  af spørgsmål (steps) og kan have sin egen vinderside (winner), som
-//  lægges oven på den fælles vinderside længere nede.
+//  All questions live in one shared list (questions), ordered from easy
+//  to hard. Each difficulty level uses the first `count` questions from
+//  that list (omitted = all). A level can also have its own winner page
+//  (winner), which is layered on top of the shared winner page.
 //
 //  Trin-typer:
 //    "rebus"  – vis emojis/tekst og/eller et billede, svar skrives ind
@@ -34,167 +35,22 @@ window.QUIZ = {
     button: "Videre",
     invalid: "Skriv et gyldigt årstal",
     cutoffYear: 1980,
-    oldMessage: "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
+    oldMessage:
+      "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
     oldEmoji: "😎",
     image: "media/dinokiss.gif",
-    delayMs: 3000,
+    delayMs: 4500,
   },
 
   levels: [
-    // ------------------------------------------------------------ NEM
-    {
-      id: "nem",
-      label: "Nem",
-      emoji: "🙂",
-      // description: "2 spørgsmål", // udelades = antal spørgsmål vises automatisk
-      steps: [
-        {
-          type: "rebus",
-          title: "Rebus",
-          text: "Hvilket ord gemmer sig her?",
-          rebus: "🍎 + 🌳",
-          answers: ["æbletræ", "et æbletræ"], // alle svar der godkendes
-          hint: "Det vokser i haven og giver frugt.",
-        },
-        {
-          type: "choice",
-          title: "Spørgsmål",
-          text: "Hvad er hovedstaden i Danmark?",
-          options: ["Aarhus", "København", "Odense", "Aalborg"],
-          correct: 1, // 0 = første mulighed, 1 = anden, osv.
-        },
-      ],
-    },
-
-    // --------------------------------------------------------- MIDDEL
-    {
-      id: "middel",
-      label: "Middel",
-      emoji: "🤔",
-      steps: [
-        {
-          type: "rebus",
-          title: "Rebus",
-          text: "Hvilken frugt gemmer sig her?",
-          rebus: "🌍 + 🫐",
-          answers: ["jordbær", "et jordbær", "jordbæret"],
-          hint: "Rødt og sødt – og godt med fløde.",
-        },
-        {
-          type: "choice",
-          title: "Farvelære",
-          text: "Hvilken farve får man, når man blander blå og gul?",
-          options: ["Lilla", "Orange", "Grøn", "Brun"],
-          correct: 2,
-        },
-        {
-          type: "choice",
-          title: "Lyt godt efter",
-          text: "Afspil lydklippet. Hvad er det hemmelige ord?",
-          audio: "media/lydklip.m4a",
-          options: ["Æble", "Banan", "Citron", "Pære"],
-          correct: 1,
-        },
-        {
-          type: "text",
-          title: "Dyr",
-          text: "Hvor mange ben har en edderkop?",
-          answers: ["8", "otte"],
-        },
-        {
-          type: "text",
-          title: "Kalenderen",
-          text: "Hvor mange dage er der i et skudår?",
-          answers: ["366"],
-        },
-      ],
-    },
-
-    // ----------------------------------------------------------- SVÆR
+    // description: "2 spørgsmål", // udelades = antal spørgsmål vises automatisk
+    { id: "nem", label: "Nem", emoji: "🙂", count: 2 },
+    { id: "middel", label: "Middel", emoji: "🤔", count: 5 },
     {
       id: "svaer",
       label: "Svær",
       emoji: "🧠",
-      steps: [
-        {
-          type: "rebus",
-          title: "Rebus 1",
-          text: "Hvilket dyr gemmer sig her?",
-          rebus: "🌊 + ⭐",
-          answers: ["søstjerne", "en søstjerne", "havstjerne"],
-          hint: "Det har fem arme og bor på havbunden.",
-        },
-        {
-          type: "rebus",
-          title: "Rebus 2",
-          image: "media/dr.png",
-          text: "Hvad gemmer sig her?",
-          rebus: "🌧️ + 🏹",
-          answers: ["regnbue", "en regnbue"],
-          hint: "Den har syv farver.",
-        },
-        {
-          type: "choice",
-          title: "Historie",
-          text: "Hvilket år fik Danmark sin første grundlov?",
-          options: ["1814", "1849", "1864", "1915"],
-          correct: 1,
-        },
-        {
-          type: "text",
-          title: "Kemi",
-          text: "Hvad er det kemiske tegn for guld?",
-          answers: ["Au"],
-          hint: "Det kommer fra det latinske ord 'aurum'.",
-        },
-        {
-          type: "choice",
-          title: "Navn",
-          text: "Det næstmest almindelige drengenavn i Danmark i 1970'erne?",
-          options: ["Anders", "Michael", "Peter", "Thomas"],
-          correct: 2,
-        },
-        {
-          type: "text",
-          title: "Rummet",
-          text: "Hvad hedder den største planet i solsystemet?",
-          answers: ["Jupiter"],
-        },
-        {
-          type: "choice",
-          title: "Kunst",
-          text: "Hvem malede Mona Lisa?",
-          options: ["Michelangelo", "Rafael", "Leonardo da Vinci", "Rembrandt"],
-          correct: 2,
-        },
-        {
-          type: "choice",
-          title: "Danmark",
-          text: "Hvad hedder Danmarks højeste naturlige punkt?",
-          options: [
-            "Himmelbjerget",
-            "Møllehøj",
-            "Ejer Bavnehøj",
-            "Yding Skovhøj",
-          ],
-          correct: 1,
-          hint: "Det ligger kun 170,86 meter over havet.",
-        },
-        {
-          type: "text",
-          title: "Matematik",
-          text: "Hvad er kvadratroden af 144?",
-          answers: ["12", "tolv"],
-        },
-        {
-          type: "choice",
-          title: "Lyt godt efter",
-          text: "Afspil lydklippet. Hvad er det hemmelige ord?",
-          audio: "media/lydklip.m4a",
-          options: ["Æble", "Banan", "Citron", "Pære"],
-          correct: 1,
-        },
-      ],
+      // no count = all questions
       // Ekstra for at klare den svære: lægges oven på den fælles "winner".
       winner: {
         title: "Du er et geni! 🏆",
@@ -212,6 +68,113 @@ window.QUIZ = {
     },
   ],
 
+  // Shared questions, ordered from easy to hard.
+  // Nem = first 2, Middel = first 5, Svær = all.
+  questions: [
+    // ------------------------------------------------------------ NEM
+    {
+      type: "choice",
+      title: "Navn",
+      text: "Det næstmest almindelige drengenavn i Danmark i 1970'erne?",
+      options: ["Anders", "Michael", "Peter", "Thomas"],
+      correct: 1,
+    },
+    {
+      type: "choice",
+      title: "Flag",
+      text: "Hvilke farver er der i det iranske flag?",
+      options: [
+        "Blå, hvid, rød",
+        "Grøn, hvid, rød",
+        "Sort, hvid, rød",
+        "Rød, hvid, grøn",
+      ],
+      correct: 1,
+    },
+
+    // --------------------------------------------------------- MIDDEL
+    {
+      type: "choice",
+      title: "Lyt godt efter",
+      text: "Afspil lydklippet. Hvad er det hemmelige ord?",
+      audio: "media/lydklip.m4a",
+      options: ["Æble", "Banan", "Citron", "Pære"],
+      correct: 1,
+    },
+    {
+      type: "text",
+      title: "Dyr",
+      text: "Hvor mange ben har en edderkop?",
+      answers: ["8", "otte"],
+    },
+    {
+      type: "text",
+      title: "Kalenderen",
+      text: "Hvor mange dage er der i et skudår?",
+      answers: ["366"],
+    },
+
+    // ----------------------------------------------------------- SVÆR
+    {
+      type: "choice",
+      title: "Lyt godt efter",
+      text: "Afspil lydklippet. Hvilken sang gemmer sig?",
+      audio: "media/sleeping.mp3",
+      options: ["Stupid Man", "Barbie Girl", "Sleeping Child", "What A Life"],
+      correct: 2,
+    },
+    {
+      type: "choice",
+      title: "Hvilken bygning ses her?",
+      image: "media/dr.png",
+      text: "Hvad gemmer sig her?",
+      options: ["Børsen", "DR Koncerthuset", "Vega", "En blå bygning"],
+      correct: 1,
+      hint: "Den ligger på Amager.",
+    },
+    {
+      type: "choice",
+      title: "Historie",
+      text: "Hvilket år fik Danmark sin første grundlov?",
+      options: ["1814", "1849", "1864", "1915"],
+      correct: 1,
+    },
+    {
+      type: "text",
+      title: "Kemi",
+      text: "Hvad er det kemiske tegn for guld?",
+      answers: ["Au"],
+      hint: "Det kommer fra det latinske ord 'aurum'.",
+    },
+    {
+      type: "text",
+      title: "Rummet",
+      text: "Hvad hedder den største planet i solsystemet?",
+      answers: ["Jupiter"],
+    },
+    {
+      type: "choice",
+      title: "Kunst",
+      text: "Hvem malede Mona Lisa?",
+      options: ["Michelangelo", "Rafael", "Leonardo da Vinci", "Rembrandt"],
+      correct: 2,
+    },
+    {
+      type: "choice",
+      title: "Danmark",
+      text: "Hvad hedder Danmarks højeste naturlige punkt?",
+      options: ["Himmelbjerget", "Møllehøj", "Ejer Bavnehøj", "Yding Skovhøj"],
+      correct: 1,
+      hint: "Det ligger kun 170,86 meter over havet.",
+    },
+    {
+      type: "text",
+      title: "Matematik",
+      text: "Hvad er kvadratroden af 144?",
+      answers: ["12", "tolv"],
+    },
+  ],
+
   // "Jeg er for gammel til sjov"-knappen på forsiden → en gimmick-side.
   // Skift image ud med en GIF, hvis du vil, fx "media/gimmick.gif".
   lazy: {
@@ -224,10 +187,10 @@ window.QUIZ = {
 
   // Fælles vinderside for alle sværhedsgrader
   winner: {
-    title: "Tillykke! 🎉",
+    title: "Tillykke (også med fødselsdagen)! 🎉",
     text: "Du har løst hele quizzen. Her er din præmie:",
-    image: "media/premie.svg", // tom "" = intet billede
-    link: { text: "Hent din præmie", url: "https://example.com" }, // null = intet link
+    image: "media/price.png", // tom "" = intet billede
+    imageTwo: "media/minions.gif", // tom "" = intet billede
     html: "", // valgfrit: egen HTML, fx en YouTube-embed eller en gavekode
     confetti: true,
     // extra: { title, text, image, link, html } – valgfri ekstrapræmie
