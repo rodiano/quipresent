@@ -100,15 +100,17 @@ window.QUIZ = {
     },
     {
       type: "text",
-      title: "Dyr",
-      text: "Hvor mange ben har en edderkop?",
-      answers: ["8", "otte"],
+      title: "Stjernetegn",
+      text: "Vægten er oktober måneds ene stjernetegn. Hvad hedder det på latin?",
+      answers: ["Libra"],
+      hint: "En drink hedder lignende med 'Cuba' foran.",
     },
     {
-      type: "text",
-      title: "Kalenderen",
-      text: "Hvor mange dage er der i et skudår?",
-      answers: ["366"],
+      type: "choice",
+      title: "Fødselssten",
+      text: "Hvilken sten er fødselsstenen for oktober?",
+      options: ["Opal", "Turmalin", "Rubi", "Månesten"],
+      correct: 0,
     },
 
     // ----------------------------------------------------------- SVÆR
@@ -131,10 +133,10 @@ window.QUIZ = {
     },
     {
       type: "choice",
-      title: "Historie",
-      text: "Hvilket år fik Danmark sin første grundlov?",
-      options: ["1814", "1849", "1864", "1915"],
-      correct: 1,
+      title: "Sekunder",
+      text: "Hvor meget er 47 år i sekunder?",
+      options: ["1.483.176.744 sekunder ", "10.483.176.744 sekunder "],
+      correct: 0,
     },
     {
       type: "text",
@@ -142,33 +144,6 @@ window.QUIZ = {
       text: "Hvad er det kemiske tegn for guld?",
       answers: ["Au"],
       hint: "Det kommer fra det latinske ord 'aurum'.",
-    },
-    {
-      type: "text",
-      title: "Rummet",
-      text: "Hvad hedder den største planet i solsystemet?",
-      answers: ["Jupiter"],
-    },
-    {
-      type: "choice",
-      title: "Kunst",
-      text: "Hvem malede Mona Lisa?",
-      options: ["Michelangelo", "Rafael", "Leonardo da Vinci", "Rembrandt"],
-      correct: 2,
-    },
-    {
-      type: "choice",
-      title: "Danmark",
-      text: "Hvad hedder Danmarks højeste naturlige punkt?",
-      options: ["Himmelbjerget", "Møllehøj", "Ejer Bavnehøj", "Yding Skovhøj"],
-      correct: 1,
-      hint: "Det ligger kun 170,86 meter over havet.",
-    },
-    {
-      type: "text",
-      title: "Matematik",
-      text: "Hvad er kvadratroden af 144?",
-      answers: ["12", "tolv"],
     },
   ],
 
