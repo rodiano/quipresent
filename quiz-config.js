@@ -54,16 +54,12 @@ window.QUIZ = {
       // no count = all questions
       // Ekstra for at klare den svære: lægges oven på den fælles "winner".
       winner: {
-        title: "Du er et geni! 🏆",
+        title: "Godt klaret Naz! 🏆",
         text: "Du klarede den svære quiz. Her er din præmie:",
         extra: {
           title: "⭐ Ekstrapræmie ⭐",
-          text: "Fordi du valgte den svære, får du også denne bonus:",
-          image: "", // fx "media/bonus.jpg"
-          link: {
-            text: "Hent ekstrapræmien",
-            url: "https://example.com/bonus",
-          },
+          text: "Fordi du valgte den svære, får du også denne bonus. ",
+          image: "media/bella-italia.jpg", // fx "media/bonus.jpg"
         },
       },
     },
