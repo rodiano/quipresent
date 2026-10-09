@@ -50,7 +50,8 @@ window.QUIZ = {
     button: "Videre",
     invalid: "Skriv et gyldigt årstal",
     cutoffYear: 1980,
-    oldMessage: "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
+    oldMessage:
+      "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
     oldEmoji: "😎",
     delayMs: 3000,
   },
@@ -74,8 +75,8 @@ window.QUIZ = {
         {
           type: "choice",
           title: "Spørgsmål",
-          text: "Hvad er hovedstaden i Danmark?",
-          options: ["Aarhus", "København", "Odense", "Aalborg"],
+          youtube: "https://youtu.be/pIUSjjlBwCI?list=RDpIUSjjlBwCI&t=58",
+          answers: ["æbletræ", "et æbletræ"], // alle svar der godkendes
           correct: 1, // 0 = første mulighed, 1 = anden, osv.
         },
       ],
