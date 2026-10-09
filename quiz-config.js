@@ -58,8 +58,9 @@ window.QUIZ = {
         text: "Du klarede den svære quiz. Her er din præmie:",
         extra: {
           title: "⭐ Ekstrapræmie ⭐",
-          text: "Fordi du valgte den svære, får du også denne bonus. ",
-          image: "media/bella-italia.jpg", // fx "media/bonus.jpg"
+          text: "Fordi du valgte den svære, får du også denne bonus.",
+          button: "Klik her", // opens the extra prize on its own page
+          image: "media/bella-italia.jpeg", // fx "media/bonus.jpg"
         },
       },
     },
@@ -189,7 +190,7 @@ window.QUIZ = {
     imageTwo: "media/minions.gif", // tom "" = intet billede
     html: "", // valgfrit: egen HTML, fx en YouTube-embed eller en gavekode
     confetti: true,
-    // extra: { title, text, image, link, html } – valgfri ekstrapræmie
+    // extra: { title, text, button, image, link, html, back } – valgfri ekstrapræmie (egen side)
   },
 
   messages: {
