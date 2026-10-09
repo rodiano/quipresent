@@ -259,3 +259,4 @@ button:disabled { cursor: default; }
 
 .gate-emoji { font-size: 4rem; line-height: 1.2; margin-bottom: 8px; }
 .gate-old { font-size: 1.3rem; font-weight: 800; margin: 0; }
+.gate-image { display: block; max-width: 100%; height: auto; margin: 16px auto 0; border-radius: 12px; }

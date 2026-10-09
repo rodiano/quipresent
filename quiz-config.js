@@ -26,6 +26,7 @@ window.QUIZ = {
 
   // Årstals-side der vises før quizzen. Er årstallet før `cutoffYear`,
   // vises `oldMessage` i `delayMs` millisekunder, og så sendes man videre.
+  // `image` is shown to everyone (below `oldEmoji`/`oldMessage`) for `delayMs` ms.
   gate: {
     title: "Før vi starter…",
     text: "Hvilket år er du født?",
@@ -35,6 +36,7 @@ window.QUIZ = {
     cutoffYear: 1980,
     oldMessage: "Hold da op, det er lige før du har oplevet dinosaurerne her på jorden!",
     oldEmoji: "😎",
+    image: "media/dinokiss.gif",
     delayMs: 3000,
   },
 
