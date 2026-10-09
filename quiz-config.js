@@ -140,10 +140,10 @@ window.QUIZ = {
     },
     {
       type: "text",
-      title: "Kemi",
-      text: "Hvad er det kemiske tegn for guld?",
-      answers: ["Au"],
-      hint: "Det kommer fra det latinske ord 'aurum'.",
+      title: "Farum Boldklub",
+      text: "Hvilket år blev Farum Boldklub grundlagt?",
+      answers: ["1910"],
+      hint: "Det er et rundt tal.",
     },
   ],
 
